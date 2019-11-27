@@ -98,6 +98,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
+    verification_phone = db.Column(db.String(16))
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -152,6 +153,9 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
             {'reset_password': self.id, 'exp': time() + expires_in},
             current_app.config['SECRET_KEY'],
             algorithm='HS256').decode('utf-8')
+
+    def two_factor_enabled(self):
+        return self.verification_phone is not None
 
     @staticmethod
     def verify_reset_password_token(token):
