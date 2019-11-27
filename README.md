@@ -36,12 +36,16 @@ Microblog is fairly complex application that is developed over the 23 chapters o
     (venv) $ flask db upgrade
     ```
 
-4. Start the development web server:
+4. Define your Twilio credentials
+
+   Copy the `.env-template` file to `.env` and then complete the credentials from your Twilio account. You need to include your Twilio account's SID and Auth Token, and the Twilio Verify Service ID.
+
+5. Start the development web server:
 
     ```
     (venv) $ flask run
     ```
 
-5. Access the application on your web browser at `http://localhost:5000`
+6. Access the application on your web browser at `http://localhost:5000`
 
 Interested in learning more about this application besides two-factor authentication? The [actual tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world) is the best reference!

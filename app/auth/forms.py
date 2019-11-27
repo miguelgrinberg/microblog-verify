@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
+import phonenumbers
 from app.models import User
 
 
@@ -43,3 +44,25 @@ class ResetPasswordForm(FlaskForm):
         _l('Repeat Password'), validators=[DataRequired(),
                                            EqualTo('password')])
     submit = SubmitField(_l('Request Password Reset'))
+
+
+class Enable2faForm(FlaskForm):
+    verification_phone = StringField(_l('Phone'), validators=[DataRequired()])
+    submit = SubmitField(_l('Enable 2FA'))
+
+    def validate_verification_phone(self, verification_phone):
+        try:
+            p = phonenumbers.parse(verification_phone.data)
+            if not phonenumbers.is_valid_number(p):
+                raise ValueError()
+        except (phonenumbers.phonenumberutil.NumberParseException, ValueError):
+            raise ValidationError(_('Invalid phone number'))
+
+
+class Confirm2faForm(FlaskForm):
+    token = StringField(_l('Token'))
+    submit = SubmitField(_l('Verify'))
+
+
+class Disable2faForm(FlaskForm):
+    submit = SubmitField(_l('Disable 2FA'))
