@@ -20,7 +20,7 @@ guess-language-spirit==0.5.3
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10.3
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.0
 phonenumbers==8.10.23
 PyJWT==1.5.3
